@@ -152,7 +152,7 @@ def shoe_size player_name
 end
 
 def team_colors team
-if team == game_hash[:home][:team_name] 
+if team == brookly_nets
   return game_hash[:home][:colors]
 else
   return game_hash[:away][:colors]
@@ -162,7 +162,7 @@ end
 def team_names 
 team_names = []
 team_names << brookly_nets 
-team_names << game_hash[:away][:team_name] 
+team_names << charlotte_hornets
 team_names
 end 
 
@@ -174,10 +174,10 @@ def charlotte_hornets
   game_hash[:away][:team_name]
 end 
 
-def player_numbers pn_param 
+def player_numbers team_name 
   numbers = []
   game_hash.each do |team, team_info|
-    if team_info[:team_name] == pn_param 
+    if team_info[:team_name] == team_name 
      team_info.each do |roster, player|
       if roster == :players
         player.each do |stats|
@@ -212,11 +212,54 @@ def big_shoe_rebounds
     big_feet
 end 
 
+def most_points_scored 
+  most_points = 0
+  most_points_player = "Player X"
+  all_players.each do |player|
+    if player[:points] > most_points
+        most_points = player[:points]
+        most_points_player = player[:player_name]
+      end 
+    end
+    most_points_player
+   puts "#{most_points_player} scored #{most_points} points. The most in the game!"
+  end
+  
+most_points_scored
 
+def winning_team
+brooklyn_nets_score  = []
+charlotte_hornets_score = []
 
+  game_hash[:home][:players].each do |player, points|
+     points = player[:points]
+     brooklyn_nets_score << points
+end 
+game_hash[:away][:players].each do |player, points|
+     points = player[:points]
+     charlotte_hornets_score << points
+end 
+brooklyn_nets_score.sum > charlotte_hornets_score.sum ? (puts "The Brooklyn Nets Win!"): (puts "The Charlotte Hornets Win!")
+end
 
+winning_team
 
+def long_name_steals_a_ton?
+longest_name = "Player X"
+long_name_steals = 0
+steals = 0
+all_players.each do |player|
+  if player[:player_name].length > longest_name.length
+    longest_name = player[:player_name]
+    long_name_steals = player[:steals]
+  end 
+end
+all_players.each do |player|
+  if player[:steals] > steals
+    steals = player[:steals]
+  end 
+end 
+long_name_steals >= steals ? (puts "The player with the longest name had the most steals.") : (puts "I don't know how this correlates..")
+end
 
-
-
-
+long_name_steals_a_ton?
